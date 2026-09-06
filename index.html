@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -116,7 +116,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 :root{--cream:#f5f0df;--ink:#263c43;--panel:#3f5158;--panel-dark:#25383f;--edge:#697d7f;--blue:#19a4dd;--red:#f45651;--gold:#f0ba57;--green:#73b5a1;--scale:1;--pixel:"DeckPixel","Courier New",monospace;--text:"DeckPixel","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#213f40;color:var(--cream)}body,button,input{font-family:var(--text);font-weight:400}button,input{-webkit-tap-highlight-color:transparent}button{color:inherit;font-size:inherit;cursor:pointer}button:disabled{cursor:not-allowed}button:focus-visible,input:focus-visible{outline:3px solid #f0cf7b;outline-offset:5px}button img{pointer-events:none}button{user-select:none}img{image-rendering:pixelated;image-rendering:crisp-edges}b,strong{font-weight:400}button,p,h1,h2,h3{margin:0}input{color:var(--cream)}[hidden]{display:none!important}
 #background{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated}.screen-grain{position:fixed;inset:0;pointer-events:none;z-index:30;opacity:.10;background:repeating-linear-gradient(0deg,rgba(0,0,0,.38) 0px,rgba(0,0,0,.38) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply}.screen-vignette{position:fixed;inset:0;pointer-events:none;z-index:31;box-shadow:inset 0 0 180px 50px rgba(8,16,23,.47);border-radius:1.4vw}.no-crt .screen-grain,.no-crt .screen-vignette{display:none}
-#viewport{position:absolute;inset:0;overflow:hidden}#scene{width:1440px;height:900px;position:absolute;left:50%;top:50%;padding:22px 32px 12px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;isolation:isolate}
+#viewport{position:absolute;inset:0;overflow:hidden}#scene{width:var(--scene-width,1440px);height:900px;position:absolute;left:50%;top:50%;padding:22px 32px 12px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;isolation:isolate;transition:width .15s}
 #scene.fill-mode{transform:translate(-50%,-50%) scale(var(--scale-x),var(--scale-y))!important}
 .icon-button{display:inline-flex;align-items:center;justify-content:center;line-height:1}
 .icon-button svg{pointer-events:none}
@@ -209,6 +209,208 @@ body.on-title #topbar,body.on-title #board,body.on-title #footer{visibility:hidd
 @media(max-aspect-ratio:1/1){body.on-title #scene{width:720px;height:1120px;--title-scale:min(calc(100vw / 720px),calc(100dvh / 1120px));transform:translate(-50%,-50%) scale(var(--menu-scale,1))}body.on-title .title-hero{top:145px;transform:translateX(-50%) scale(.82)}body.on-title .title-top{left:27px;right:27px;top:34px}body.on-title .title-edition{letter-spacing:1px}body.on-title .title-edition b{font-size:16px}body.on-title .title-top-right>span{display:none}body.on-title .title-controls{top:650px;width:590px}body.on-title .title-primary{min-height:99px;font-size:29px}body.on-title .title-secondary{min-height:64px;font-size:21px}body.on-title .title-secondary-row{margin-top:33px}body.on-title .title-resume-info{font-size:15px;gap:15px}body.on-title .title-prompt{margin-top:37px;font-size:13px}body.on-title .title-bottom{left:32px;right:32px;bottom:39px;font-size:10px}body.on-title .title-bottom b{font-size:13px}body.on-title .portrait-hint{display:none}body.on-title #modal-layer{inset:0;padding:24px;background:rgba(13,28,35,.93)}body.on-title .modal{width:100%;max-height:1010px}body.on-title .newrun-decks{grid-template-columns:repeat(5,1fr);gap:9px}body.on-title .deck-option img{width:59px;height:79px}body.on-title .newrun-decks{margin-bottom:15px}body.on-title .deck-description{gap:16px}body.on-title .deck-description h2{font-size:20px}body.on-title .deck-description p{font-size:16px}body.on-title .collection-grid{grid-template-columns:repeat(5,1fr)}body.on-title .hand-table td:first-child{min-width:125px}body.on-title .hand-table .en{display:none}}
 
 @media(max-aspect-ratio:1/1){body.on-title #title-screen{overflow:visible}body.on-title .title-shade{inset:-1600px -500px;background:rgba(11,29,34,.22)}}
+
+
+/* ===== Mobile Landscape & Large Font Enhancements (Option 1) ===== */
+body.mobile-view, body.font-large {
+  --text: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body.mobile-view .screen-grain{opacity:.02!important}
+body.mobile-view .screen-vignette{box-shadow:inset 0 0 60px 10px rgba(8,16,23,.25)!important}
+
+/* Mobile Sidebar & Status */
+body.mobile-view #sidebar, body.font-large #sidebar {
+  padding: 13px;
+}
+body.mobile-view .blind-banner, body.font-large .blind-banner {
+  height: 38px;
+  font-size: 22px;
+  font-weight: 700;
+}
+body.mobile-view .blind-target>strong, body.font-large .blind-target>strong {
+  font-size: 38px;
+}
+body.mobile-view .blind-target>span, body.font-large .blind-target>span {
+  font-size: 15px;
+}
+body.mobile-view .blind-rule, body.font-large .blind-rule {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #fff;
+}
+body.mobile-view .blind-reward, body.font-large .blind-reward {
+  font-size: 14px;
+}
+body.mobile-view .blind-reward b, body.font-large .blind-reward b {
+  font-size: 22px;
+}
+body.mobile-view .score-heading, body.font-large .score-heading {
+  font-size: 16px;
+  font-weight: 600;
+}
+body.mobile-view .score-heading span, body.font-large .score-heading span {
+  font-size: 12px;
+}
+body.mobile-view .round-score, body.font-large .round-score {
+  height: 58px;
+  min-height: 58px;
+}
+body.mobile-view .round-score strong, body.font-large .round-score strong {
+  font-size: 42px;
+}
+body.mobile-view .hand-name-row strong, body.font-large .hand-name-row strong {
+  font-size: 27px;
+}
+body.mobile-view .hand-name-row span, body.font-large .hand-name-row span {
+  font-size: 17px;
+}
+body.mobile-view .score-formula, body.font-large .score-formula {
+  font-size: 39px;
+}
+body.mobile-view .resource, body.font-large .resource {
+  height: 72px;
+}
+body.mobile-view .resource span, body.font-large .resource span {
+  font-size: 15px;
+}
+body.mobile-view .resource strong, body.font-large .resource strong {
+  font-size: 32px;
+}
+body.mobile-view .money-box, body.font-large .money-box {
+  height: 66px;
+}
+body.mobile-view .money-box strong, body.font-large .money-box strong {
+  font-size: 34px;
+}
+body.mobile-view .money-box span, body.font-large .money-box span {
+  font-size: 15px;
+}
+body.mobile-view .info-button, body.font-large .info-button {
+  font-size: 18px;
+  min-height: 44px;
+  font-weight: 600;
+}
+body.mobile-view .deck-caption, body.font-large .deck-caption {
+  font-size: 14px;
+}
+
+/* Mobile Table & Actions */
+body.mobile-view .zone-heading h2, body.font-large .zone-heading h2 {
+  font-size: 22px;
+}
+body.mobile-view .zone-heading div, body.font-large .zone-heading div {
+  font-size: 18px;
+}
+body.mobile-view #play-button, body.mobile-view #discard-button,
+body.font-large #play-button, body.font-large #discard-button {
+  min-height: 58px;
+  font-size: 26px;
+  font-weight: 700;
+  padding: 10px 32px;
+  border-radius: 10px;
+}
+body.mobile-view #table-actions .sort-actions, body.font-large #table-actions .sort-actions {
+  font-size: 18px;
+  gap: 12px;
+}
+body.mobile-view #table-actions .sort-actions .btn, body.font-large #table-actions .sort-actions .btn {
+  font-size: 18px;
+  min-height: 46px;
+  padding: 8px 16px;
+}
+body.mobile-view #deck-pile, body.font-large #deck-pile {
+  width: 118px;
+  height: 180px;
+  font-size: 16px;
+}
+body.mobile-view #deck-pile span#deck-count, body.font-large #deck-pile span#deck-count {
+  font-size: 18px;
+}
+body.mobile-view .hand-meta, body.font-large .hand-meta {
+  font-size: 17px;
+  font-weight: 600;
+}
+body.mobile-view #topbar .top-button, body.font-large #topbar .top-button {
+  height: 42px;
+  font-size: 17px;
+  min-width: 126px;
+}
+body.mobile-view #topbar .icon-button, body.font-large #topbar .icon-button {
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+}
+body.mobile-view #footer, body.font-large #footer {
+  font-size: 15px;
+}
+
+/* Shop & Inspect Enhancements */
+body.mobile-view .shop-heading h1, body.font-large .shop-heading h1 {
+  font-size: 30px;
+}
+body.mobile-view .shop-item .item-name, body.font-large .shop-item .item-name {
+  font-size: 16px;
+}
+body.mobile-view .shop-controls .btn, body.font-large .shop-controls .btn {
+  font-size: 22px;
+  min-height: 48px;
+}
+body.mobile-view .pack-title, body.font-large .pack-title {
+  font-size: 36px;
+}
+body.mobile-view .pack-subtitle, body.font-large .pack-subtitle {
+  font-size: 18px;
+}
+body.mobile-view .inspect-details h2, body.font-large .inspect-details h2 {
+  font-size: 28px;
+}
+body.mobile-view .inspect-details .desc, body.font-large .inspect-details .desc {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Extra Large Mode */
+body.font-xlarge .blind-target>strong { font-size: 44px; }
+body.font-xlarge .round-score strong { font-size: 48px; }
+body.font-xlarge .hand-name-row strong { font-size: 32px; }
+body.font-xlarge .score-formula { font-size: 46px; }
+body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30px; min-height: 64px; }
+
+/* Enhanced Mobile Tooltip */
+#tooltip.mobile-tooltip {
+  padding: 16px 18px!important;
+  border-radius: 12px!important;
+  background: #f4efdf!important;
+  border: 3px solid #5b7475!important;
+  box-shadow: 0 12px 36px rgba(0,0,0,.65)!important;
+  line-height: 1.55!important;
+  color: #1a2f35!important;
+}
+#tooltip.mobile-tooltip .tip-title {
+  color: #172d33!important;
+  font-weight: 700!important;
+  margin-bottom: 5px!important;
+}
+#tooltip.mobile-tooltip .tip-body {
+  margin: 6px 0!important;
+  line-height: 1.6!important;
+}
+#tooltip.mobile-tooltip .tip-note {
+  margin-top: 8px!important;
+  padding-top: 6px!important;
+  border-top: 1px dashed #a0b2aa!important;
+  font-size: 13px!important;
+  color: #4a635f!important;
+}
+#tooltip.mobile-tooltip .tip-touch-hint {
+  display: block;
+  font-size: 11px;
+  color: #8c9e99;
+  text-align: right;
+  margin-top: 6px;
+}
 
 </style>
 </head>
@@ -1526,7 +1728,7 @@ const packs={buffoon:'小丑包',arcana:'秘术包',celestial:'天体包',standa
 const packSizes={normal:'',jumbo:'巨型',mega:'超级'};
 const enhancer=e=>e?`<span class="edition-overlay ${e}"></span>`:'';
 const delay=t=>new Promise(r=>setTimeout(r,t/Math.max(.1,settings.speed)));
-let state,settings={sound:true,music:true,volume:.30,speed:2,crt:true,motion:!matchMedia('(prefers-reduced-motion: reduce)').matches,fitMode:'contain'};
+let state,settings={sound:true,music:true,volume:.30,speed:2,crt:true,motion:!matchMedia('(prefers-reduced-motion: reduce)').matches,fitMode:'contain',mobileFont:'large'};
 let busy=false,modal=null,uiDeck='red',uiSeed='',infoTab='hands',displayRound=null,animResult=null,animHand=null,animJokers=null;
 let toastTimer,tooltipTimer,dragData=null,dragUntil=0,scale=1,initialHint=true,saveOk=true;
 let onTitle=true,hasRun=false,motionPhase="idle",actionSerial=0,animDrawCount=null;
@@ -1543,7 +1745,10 @@ function save(){
  const st=$('save-status');if(st)st.innerHTML=saveOk?'<i></i> 自动保存':'仅本次会话';
 }
 function applySettings(){
- document.body.classList.toggle('no-crt',!settings.crt);
+ const isMobile = matchMedia('(pointer: coarse)').matches || (innerHeight <= 600 && innerWidth > innerHeight);
+ document.body.classList.toggle('no-crt', !settings.crt || (isMobile && settings.crt !== true && settings.crt !== false));
+ document.body.classList.toggle('font-large', settings.mobileFont !== 'standard');
+ document.body.classList.toggle('font-xlarge', settings.mobileFont === 'xlarge');
  document.body.classList.toggle('reduced-motion',!settings.motion);
  M.enabled=!!settings.motion;M.speed=Number(settings.speed)||2;FX.motion=settings.motion;FX.configure({enabled:settings.sound,music:settings.music,volume:settings.volume});
  if($('title-sound'))$('title-sound').textContent=settings.sound?'♪':'♩';
@@ -1551,17 +1756,31 @@ function applySettings(){
 }
 let scaleX=1,scaleY=1;
 function fit(){
- const sx=innerWidth/1440,sy=innerHeight/900;
- const base=Math.min(sx,sy),menu=Math.min(innerWidth/720,innerHeight/1120);
- const isFill=settings.fitMode==='fill'&&(!onTitle||innerWidth>=innerHeight);
- scale=onTitle&&innerWidth<innerHeight?menu:(isFill?sx:base);
- scaleX=isFill?sx:(onTitle&&innerWidth<innerHeight?menu:base);
- scaleY=isFill?sy:(onTitle&&innerWidth<innerHeight?menu:base);
- document.documentElement.style.setProperty('--scale',base);
- document.documentElement.style.setProperty('--scale-x',sx);
- document.documentElement.style.setProperty('--scale-y',sy);
- document.documentElement.style.setProperty('--menu-scale',menu);
- if($('scene'))$('scene').classList.toggle('fill-mode',isFill);
+ const isCoarse = matchMedia('(pointer: coarse)').matches;
+ const isMobile = isCoarse || (innerHeight <= 600 && innerWidth > innerHeight) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+ document.body.classList.toggle('mobile-view', isMobile);
+
+ const aspect = innerWidth / Math.max(1, innerHeight);
+ let sceneW = 1440;
+ if (innerWidth > innerHeight && aspect > 1.6) {
+  // Mobile landscape widescreen adaptation: eliminate side letterboxes
+  sceneW = Math.min(2160, Math.max(1440, Math.round(900 * aspect)));
+ }
+ document.documentElement.style.setProperty('--scene-width', sceneW + 'px');
+
+ const sx = innerWidth / sceneW, sy = innerHeight / 900;
+ const base = Math.min(sx, sy), menu = Math.min(innerWidth / 720, innerHeight / 1120);
+ const isFill = settings.fitMode === 'fill' && (!onTitle || innerWidth >= innerHeight);
+
+ scale = onTitle && innerWidth < innerHeight ? menu : (isFill ? sx : base);
+ scaleX = isFill ? sx : (onTitle && innerWidth < innerHeight ? menu : base);
+ scaleY = isFill ? sy : (onTitle && innerWidth < innerHeight ? menu : base);
+
+ document.documentElement.style.setProperty('--scale', base);
+ document.documentElement.style.setProperty('--scale-x', sx);
+ document.documentElement.style.setProperty('--scale-y', sy);
+ document.documentElement.style.setProperty('--menu-scale', menu);
+ if ($('scene')) $('scene').classList.toggle('fill-mode', isFill);
  FX.resize();
 }
 
@@ -1897,7 +2116,7 @@ function renderInfo(){
  modalFrame('本局信息',tabs+content,'<button class="btn amber" data-action="close-modal">返回牌桌</button>');
 }
 function renderSettings(){
- const content=`<div class="settings-list"><div class="setting-row"><span>音效 <small>选牌、连锁计分、购买反馈</small></span><button class="toggle ${settings.sound?'active':''}" data-action="toggle-setting" data-id="sound">${settings.sound?'开启':'关闭'}</button></div><div class="setting-row"><span>背景音乐 <small>程序合成的原创循环音乐</small></span><button class="toggle ${settings.music?'active':''}" data-action="toggle-setting" data-id="music">${settings.music?'开启':'关闭'}</button></div><div class="setting-row"><span>音量</span><input id="volume-slider" type="range" min="0" max="100" value="${Math.round(settings.volume*100)}" aria-label="音量"></div><div class="setting-row"><span>游戏速度</span><div class="segmented">${[1,2,4].map(n=>`<button class="${settings.speed===n?'active':''}" data-action="speed" data-id="${n}">${n}×</button>`).join('')}</div></div><div class="setting-row"><span>CRT 屏幕效果 <small>扫描线与屏幕暗角</small></span><button class="toggle ${settings.crt?'active':''}" data-action="toggle-setting" data-id="crt">${settings.crt?'开启':'关闭'}</button></div><div class="setting-row"><span>动态效果 <small>流动背景、发牌、出牌与翻牌</small></span><button class="toggle ${settings.motion?'active':''}" data-action="toggle-setting" data-id="motion">${settings.motion?'开启':'关闭'}</button></div><div class="setting-row"><span>画面适配 <small>等比保持原版比例，或全屏拉伸铺满屏幕</small></span><div class="segmented"><button class="${settings.fitMode!=='fill'?'active':''}" data-action="fit-mode" data-id="contain">等比居中</button><button class="${settings.fitMode==='fill'?'active':''}" data-action="fit-mode" data-id="fill">铺满全屏</button></div></div></div><div class="setting-actions"><button class="btn muted" data-action="fullscreen">全屏</button><button class="btn muted" data-action="export-save">导出存档</button><button class="btn muted" data-action="import-save">导入存档</button></div><div class="settings-footnote">进度自动保存在当前浏览器。更换浏览器或移动文件时，建议先导出存档。<br>不联网、不上传数据、不需要登录。</div>`;
+ const content=`<div class="settings-list"><div class="setting-row"><span>音效 <small>选牌、连锁计分、购买反馈</small></span><button class="toggle ${settings.sound?'active':''}" data-action="toggle-setting" data-id="sound">${settings.sound?'开启':'关闭'}</button></div><div class="setting-row"><span>背景音乐 <small>程序合成的原创循环音乐</small></span><button class="toggle ${settings.music?'active':''}" data-action="toggle-setting" data-id="music">${settings.music?'开启':'关闭'}</button></div><div class="setting-row"><span>音量</span><input id="volume-slider" type="range" min="0" max="100" value="${Math.round(settings.volume*100)}" aria-label="音量"></div><div class="setting-row"><span>游戏速度</span><div class="segmented">${[1,2,4].map(n=>`<button class="${settings.speed===n?'active':''}" data-action="speed" data-id="${n}">${n}×</button>`).join('')}</div></div><div class="setting-row"><span>CRT 屏幕效果 <small>扫描线与屏幕暗角</small></span><button class="toggle ${settings.crt?'active':''}" data-action="toggle-setting" data-id="crt">${settings.crt?'开启':'关闭'}</button></div><div class="setting-row"><span>动态效果 <small>流动背景、发牌、出牌与翻牌</small></span><button class="toggle ${settings.motion?'active':''}" data-action="toggle-setting" data-id="motion">${settings.motion?'开启':'关闭'}</button></div><div class="setting-row"><span>画面适配 <small>等比保持原版比例，或全屏拉伸铺满屏幕</small></span><div class="segmented"><button class="${settings.fitMode!=='fill'?'active':''}" data-action="fit-mode" data-id="contain">等比居中</button><button class="${settings.fitMode==='fill'?'active':''}" data-action="fit-mode" data-id="fill">铺满全屏</button></div></div><div class="setting-row"><span>字体与 UI 缩放 <small>针对手机与小屏设备放大的高清晰字体</small></span><div class="segmented"><button class="${settings.mobileFont==='standard'?'active':''}" data-action="mobile-font" data-id="standard">标准</button><button class="${(!settings.mobileFont||settings.mobileFont==='large')?'active':''}" data-action="mobile-font" data-id="large">大字 (推荐)</button><button class="${settings.mobileFont==='xlarge'?'active':''}" data-action="mobile-font" data-id="xlarge">特大</button></div></div></div><div class="setting-actions"><button class="btn muted" data-action="fullscreen">全屏</button><button class="btn muted" data-action="export-save">导出存档</button><button class="btn muted" data-action="import-save">导入存档</button></div><div class="settings-footnote">进度自动保存在当前浏览器。更换浏览器或移动文件时，建议先导出存档。<br>不联网、不上传数据、不需要登录。</div>`;
  modalFrame('\u9009\u9879 <small>OPTIONS</small>',content,`${onTitle?'':'<button class="btn muted" data-action="main-menu">\u4fdd\u5b58\u5e76\u8fd4\u56de\u4e3b\u83dc\u5355</button>'}<button class="btn amber" data-action="close-modal">${onTitle?'\u8fd4\u56de\u4e3b\u83dc\u5355':'\u8fd4\u56de\u6e38\u620f'}</button>`,'medium');
 }
 function renderAbout(){
@@ -1945,11 +2164,22 @@ function tipContent(key){
 function showTooltip(el){
  if(busy||dragData)return;const key=el.dataset.tip;if(!key)return;let tip;
  try{tip=tipContent(key);}catch(e){return;}
- const t=$('tooltip');t.innerHTML=`<div class="tip-title">${esc(tip.title)}</div>${tip.en?`<div class="tip-en">${esc(tip.en)}</div>`:''}<div class="tip-body">${tip.body}</div>${tip.rarity?`<span class="tip-rarity ${tip.rarity}">${rarity[tip.rarity]}</span>`:''}${tip.note?`<div class="tip-note">${tip.note}</div>`:''}`;
- t.hidden=false;const ts=Math.max(.65,Math.min(1.15,scale));t.style.width=(255*ts)+'px';t.style.fontSize=(13*ts)+'px';
- t.querySelector('.tip-title').style.fontSize=(19*ts)+'px';
- const r=el.getBoundingClientRect(),tr=t.getBoundingClientRect();let left=r.left+r.width/2-tr.width/2,top=r.top-tr.height-13;
- if(top<10)top=r.bottom+12;if(top+tr.height>innerHeight-8)top=innerHeight-tr.height-8;
+ const t=$('tooltip');
+ const isMobile=document.body.classList.contains('mobile-view')||matchMedia('(pointer: coarse)').matches||(innerHeight<=600&&innerWidth>innerHeight);
+ t.innerHTML=`<div class="tip-title">${esc(tip.title)}</div>${tip.en?`<div class="tip-en">${esc(tip.en)}</div>`:''}<div class="tip-body">${tip.body}</div>${tip.rarity?`<span class="tip-rarity ${tip.rarity}">${rarity[tip.rarity]}</span>`:''}${tip.note?`<div class="tip-note">${tip.note}</div>`:''}${isMobile?'<div class="tip-touch-hint">轻触任意处关闭</div>':''}`;
+ t.hidden=false;
+ if(isMobile||settings.mobileFont!=='standard'){
+  t.classList.add('mobile-tooltip');
+  t.style.width='min(380px, 86vw)';
+  t.style.fontSize=(settings.mobileFont==='xlarge'?18:16)+'px';
+  t.querySelector('.tip-title').style.fontSize=(settings.mobileFont==='xlarge'?24:21)+'px';
+ }else{
+  t.classList.remove('mobile-tooltip');
+  const ts=Math.max(.75,Math.min(1.2,scale));t.style.width=(260*ts)+'px';t.style.fontSize=(13*ts)+'px';
+  t.querySelector('.tip-title').style.fontSize=(19*ts)+'px';
+ }
+ const r=el.getBoundingClientRect(),tr=t.getBoundingClientRect();let left=r.left+r.width/2-tr.width/2,top=r.top-tr.height-14;
+ if(top<10)top=r.bottom+14;if(top+tr.height>innerHeight-8)top=innerHeight-tr.height-8;
  left=Math.max(8,Math.min(innerWidth-tr.width-8,left));t.style.left=left+'px';t.style.top=top+'px';
 }
 function hideTooltip(){clearTimeout(tooltipTimer);$('tooltip').hidden=true;}
@@ -2020,6 +2250,7 @@ function performAction(action,id,el){
  }
 }catch(e){toast('全屏切换受限');}break;
 case 'fit-mode':settings.fitMode=id;fit();applySettings();save();renderSettings();FX.sound('select');break;
+case 'mobile-font':settings.mobileFont=id;applySettings();save();renderSettings();FX.sound('select');break;
  case 'export-save':{
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='balatro-save-'+state.seed+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('存档已导出');break;
  }
@@ -2115,6 +2346,7 @@ document.addEventListener('webkitfullscreenchange',updateFullscreenUI);
 document.addEventListener('mozfullscreenchange',updateFullscreenUI);
 document.addEventListener('MSFullscreenChange',updateFullscreenUI);
 if($('background'))$('background').addEventListener('dblclick',()=>performAction('fullscreen'));
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('[data-tip]')&&!e.target.closest('#tooltip'))hideTooltip();});
 
 /* Explicit testing interface; no cheats are shown in the normal game interface. */
 global.Balatro={
