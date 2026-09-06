@@ -412,6 +412,53 @@ body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30p
   margin-top: 6px;
 }
 
+
+/* ===== One-Click Force Landscape & Rotation Support ===== */
+body.force-landscape {
+  overflow: hidden !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+body.force-landscape #viewport {
+  position: fixed !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  left: 100vw !important;
+  top: 0 !important;
+  transform: rotate(90deg) !important;
+  transform-origin: 0 0 !important;
+  overflow: hidden !important;
+  z-index: 20 !important;
+}
+body.force-landscape .portrait-hint {
+  display: none !important;
+}
+.portrait-hint {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  background: #2f4d50;
+  border: 2px solid #8eb398;
+  color: #fff2cc;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 22px;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+  cursor: pointer;
+  letter-spacing: .5px;
+  transition: all .16s;
+}
+.portrait-hint:hover, .portrait-hint:active {
+  background: #41676b;
+  border-color: #f0cf7b;
+  transform: translateX(-50%) scale(1.05);
+}
+
 </style>
 </head>
 <body class="on-title">
@@ -422,7 +469,7 @@ body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30p
  <div id="scene">
   <header id="topbar">
    <button id="brand" class="brand" data-action="about" title="关于这个网页版本" aria-label="关于 Balatro 网页版"><span>B</span><span>A</span><span>L</span><span>A</span><span>T</span><span>R</span><span>O</span><i>WEB EDITION</i></button>
-   <div class="top-right"><span class="stake-indicator"><i></i> 白色赌注</span><span id="save-status"><i></i> 自动保存</span><button class="top-button" data-action="main-menu">主菜单</button><button class="top-button" data-action="new">新的一局 <span>↗</span></button><button class="icon-button" id="sound-toggle" data-action="sound" title="音效开关" aria-label="切换音效">♪</button><button class="icon-button" id="fullscreen-toggle" data-action="fullscreen" title="全屏 / 退出全屏 (快捷键 F)" aria-label="切换全屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button><button class="icon-button" data-action="settings" title="设置" aria-label="打开设置">☰</button></div>
+   <div class="top-right"><span class="stake-indicator"><i></i> 白色赌注</span><span id="save-status"><i></i> 自动保存</span><button class="top-button" data-action="main-menu">主菜单</button><button class="top-button" data-action="new">新的一局 <span>↗</span></button><button class="icon-button" id="sound-toggle" data-action="sound" title="音效开关" aria-label="切换音效">♪</button><button class="icon-button" id="rotate-toggle" data-action="toggle-orientation" title="一键横屏 / 旋转画面" aria-label="切换横屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></button><button class="icon-button" id="fullscreen-toggle" data-action="fullscreen" title="全屏 / 退出全屏 (快捷键 F)" aria-label="切换全屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button><button class="icon-button" data-action="settings" title="设置" aria-label="打开设置">☰</button></div>
   </header>
   <main id="board" inert aria-hidden="true">
    <aside id="sidebar" aria-label="当前牌局">
@@ -469,7 +516,7 @@ body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30p
  </div>
 </div>
 <div id="tooltip" role="tooltip" hidden></div>
-<div class="portrait-hint" id="portrait-hint">↻ 横屏游玩，牌桌更清晰</div>
+<button class="portrait-hint" id="portrait-hint" data-action="toggle-orientation" title="点击一键切换横屏">↻ 点击一键横屏游玩</button>
 <input type="file" id="save-import" accept=".json,application/json" hidden>
 <script>
 // ===== data.js =====
@@ -1756,25 +1803,32 @@ function applySettings(){
 }
 let scaleX=1,scaleY=1;
 function fit(){
+ if(innerWidth>=innerHeight&&document.body.classList.contains('force-landscape')){
+  document.body.classList.remove('force-landscape');
+ }
+ const isForce = document.body.classList.contains('force-landscape') && innerWidth < innerHeight;
+ const effW = isForce ? innerHeight : innerWidth;
+ const effH = isForce ? innerWidth : innerHeight;
+
  const isCoarse = matchMedia('(pointer: coarse)').matches;
- const isMobile = isCoarse || (innerHeight <= 600 && innerWidth > innerHeight) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+ const isMobile = isCoarse || (effH <= 600 && effW > effH) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
  document.body.classList.toggle('mobile-view', isMobile);
 
- const aspect = innerWidth / Math.max(1, innerHeight);
+ const aspect = effW / Math.max(1, effH);
  let sceneW = 1440;
- if (innerWidth > innerHeight && aspect > 1.6) {
+ if (effW > effH && aspect > 1.6) {
   // Mobile landscape widescreen adaptation: eliminate side letterboxes
   sceneW = Math.min(2160, Math.max(1440, Math.round(900 * aspect)));
  }
  document.documentElement.style.setProperty('--scene-width', sceneW + 'px');
 
- const sx = innerWidth / sceneW, sy = innerHeight / 900;
- const base = Math.min(sx, sy), menu = Math.min(innerWidth / 720, innerHeight / 1120);
- const isFill = settings.fitMode === 'fill' && (!onTitle || innerWidth >= innerHeight);
+ const sx = effW / sceneW, sy = effH / 900;
+ const base = Math.min(sx, sy), menu = Math.min(effW / 720, effH / 1120);
+ const isFill = settings.fitMode === 'fill' && (!onTitle || effW >= effH);
 
- scale = onTitle && innerWidth < innerHeight ? menu : (isFill ? sx : base);
- scaleX = isFill ? sx : (onTitle && innerWidth < innerHeight ? menu : base);
- scaleY = isFill ? sy : (onTitle && innerWidth < innerHeight ? menu : base);
+ scale = onTitle && effW < effH ? menu : (isFill ? sx : base);
+ scaleX = isFill ? sx : (onTitle && effW < effH ? menu : base);
+ scaleY = isFill ? sy : (onTitle && effW < effH ? menu : base);
 
  document.documentElement.style.setProperty('--scale', base);
  document.documentElement.style.setProperty('--scale-x', sx);
@@ -1802,7 +1856,7 @@ function renderTitle(){
   {img:A.joker({key:'joker'}),x:0,y:-12,r:-5,j:true}
  ];
  $('title-screen').innerHTML=`<div class="title-shade"></div>
- <div class="title-top"><div class="title-edition"><b>\u2660 \u2665 \u2663 \u2666</b><i></i> THE POKER ROGUELIKE</div><div class="title-top-right"><span>OFFLINE / WEB EDITION</span><button id="title-fullscreen" class="icon-button" data-action="fullscreen" title="全屏 / 退出全屏 (快捷键 F)" aria-label="切换全屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button><button id="title-sound" class="icon-button" data-action="sound" aria-label="\u5207\u6362\u97f3\u6548">${settings.sound?'\u266a':'\u2669'}</button></div></div>
+ <div class="title-top"><div class="title-edition"><b>\u2660 \u2665 \u2663 \u2666</b><i></i> THE POKER ROGUELIKE</div><div class="title-top-right"><span>OFFLINE / WEB EDITION</span><button id="title-rotate" class="icon-button" data-action="toggle-orientation" title="一键横屏 / 旋转画面" aria-label="切换横屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></button><button id="title-fullscreen" class="icon-button" data-action="fullscreen" title="全屏 / 退出全屏 (快捷键 F)" aria-label="切换全屏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button><button id="title-sound" class="icon-button" data-action="sound" aria-label="\u5207\u6362\u97f3\u6548">${settings.sound?'\u266a':'\u2669'}</button></div></div>
  <div class="title-hero" aria-hidden="true"><div class="title-halo"></div><div class="title-fan">${decor.map((c,i)=>`<div class="title-fan-card ${c.j?'hero-joker':''}" style="--tx:${c.x}px;--ty:${c.y}px;--turn:${c.r}deg;--wait:${-i*.72}s"><img src="${c.img}" alt=""></div>`).join('')}</div><div class="title-spark s1">\u2727</div><div class="title-spark s2">\u2726</div><div class="title-spark s3">\u2727</div><div class="title-logo">${[...'BALATRO'].map((c,i)=>`<span style="--letter-y:${[2,-3,3,-2,3,-2,2][i]}px;--letter-r:${[-5,3,-3,4,-2,3,-3][i]}deg;--letter-delay:${-i*.38}s">${c}</span>`).join('')}</div><div class="title-kicker">\u5c0f\u4e11\u724c \u00b7 \u6bcf\u4e00\u624b\uff0c\u90fd\u6709\u65e0\u9650\u53ef\u80fd</div></div>
  <div class="title-controls"><div class="title-primary-row">${hasRun?`<button class="btn blue title-primary" id="title-continue" data-action="title-continue"><span>${ended?'\u67e5\u770b\u4e0a\u5c40':'\u7ee7\u7eed\u6e38\u620f'}</span><small>CONTINUE RUN</small></button>`:''}<button class="btn red title-primary ${hasRun?'':'solo'}" id="title-new" data-action="title-new"><span>${hasRun?'\u65b0\u7684\u4e00\u5c40':'\u5f00\u59cb\u6e38\u620f'}</span><small>NEW RUN</small>${hasRun?'':'<span class="arrow">\u2197</span>'}</button></div>
  <div class="title-resume-info">${hasRun?`<i class="save-light"></i><span>${esc(d.name)}</span><i></i><span>\u5e95\u6ce8 <b>${s.ante}</b> / 8</span><i></i><span>${esc(phases[s.phase]||'\u8fdb\u5ea6\u5df2\u4fdd\u5b58')}</span><i></i><b>${money(s.money)}</b>`:'<span>\u7ec4\u5408\u724c\u578b</span><i></i><span>\u6536\u96c6\u5c0f\u4e11</span><i></i><span>\u8ba9\u500d\u7387\u7a81\u7834\u6781\u9650</span>'}</div>
@@ -2116,7 +2170,7 @@ function renderInfo(){
  modalFrame('本局信息',tabs+content,'<button class="btn amber" data-action="close-modal">返回牌桌</button>');
 }
 function renderSettings(){
- const content=`<div class="settings-list"><div class="setting-row"><span>音效 <small>选牌、连锁计分、购买反馈</small></span><button class="toggle ${settings.sound?'active':''}" data-action="toggle-setting" data-id="sound">${settings.sound?'开启':'关闭'}</button></div><div class="setting-row"><span>背景音乐 <small>程序合成的原创循环音乐</small></span><button class="toggle ${settings.music?'active':''}" data-action="toggle-setting" data-id="music">${settings.music?'开启':'关闭'}</button></div><div class="setting-row"><span>音量</span><input id="volume-slider" type="range" min="0" max="100" value="${Math.round(settings.volume*100)}" aria-label="音量"></div><div class="setting-row"><span>游戏速度</span><div class="segmented">${[1,2,4].map(n=>`<button class="${settings.speed===n?'active':''}" data-action="speed" data-id="${n}">${n}×</button>`).join('')}</div></div><div class="setting-row"><span>CRT 屏幕效果 <small>扫描线与屏幕暗角</small></span><button class="toggle ${settings.crt?'active':''}" data-action="toggle-setting" data-id="crt">${settings.crt?'开启':'关闭'}</button></div><div class="setting-row"><span>动态效果 <small>流动背景、发牌、出牌与翻牌</small></span><button class="toggle ${settings.motion?'active':''}" data-action="toggle-setting" data-id="motion">${settings.motion?'开启':'关闭'}</button></div><div class="setting-row"><span>画面适配 <small>等比保持原版比例，或全屏拉伸铺满屏幕</small></span><div class="segmented"><button class="${settings.fitMode!=='fill'?'active':''}" data-action="fit-mode" data-id="contain">等比居中</button><button class="${settings.fitMode==='fill'?'active':''}" data-action="fit-mode" data-id="fill">铺满全屏</button></div></div><div class="setting-row"><span>字体与 UI 缩放 <small>针对手机与小屏设备放大的高清晰字体</small></span><div class="segmented"><button class="${settings.mobileFont==='standard'?'active':''}" data-action="mobile-font" data-id="standard">标准</button><button class="${(!settings.mobileFont||settings.mobileFont==='large')?'active':''}" data-action="mobile-font" data-id="large">大字 (推荐)</button><button class="${settings.mobileFont==='xlarge'?'active':''}" data-action="mobile-font" data-id="xlarge">特大</button></div></div></div><div class="setting-actions"><button class="btn muted" data-action="fullscreen">全屏</button><button class="btn muted" data-action="export-save">导出存档</button><button class="btn muted" data-action="import-save">导入存档</button></div><div class="settings-footnote">进度自动保存在当前浏览器。更换浏览器或移动文件时，建议先导出存档。<br>不联网、不上传数据、不需要登录。</div>`;
+ const content=`<div class="settings-list"><div class="setting-row"><span>音效 <small>选牌、连锁计分、购买反馈</small></span><button class="toggle ${settings.sound?'active':''}" data-action="toggle-setting" data-id="sound">${settings.sound?'开启':'关闭'}</button></div><div class="setting-row"><span>背景音乐 <small>程序合成的原创循环音乐</small></span><button class="toggle ${settings.music?'active':''}" data-action="toggle-setting" data-id="music">${settings.music?'开启':'关闭'}</button></div><div class="setting-row"><span>音量</span><input id="volume-slider" type="range" min="0" max="100" value="${Math.round(settings.volume*100)}" aria-label="音量"></div><div class="setting-row"><span>游戏速度</span><div class="segmented">${[1,2,4].map(n=>`<button class="${settings.speed===n?'active':''}" data-action="speed" data-id="${n}">${n}×</button>`).join('')}</div></div><div class="setting-row"><span>CRT 屏幕效果 <small>扫描线与屏幕暗角</small></span><button class="toggle ${settings.crt?'active':''}" data-action="toggle-setting" data-id="crt">${settings.crt?'开启':'关闭'}</button></div><div class="setting-row"><span>动态效果 <small>流动背景、发牌、出牌与翻牌</small></span><button class="toggle ${settings.motion?'active':''}" data-action="toggle-setting" data-id="motion">${settings.motion?'开启':'关闭'}</button></div><div class="setting-row"><span>手机横屏方向 <small>系统锁定竖屏时，可一键强制旋为横屏</small></span><button class="toggle ${document.body.classList.contains('force-landscape')?'active':''}" data-action="toggle-orientation">${document.body.classList.contains('force-landscape')?'横屏中':'切换横屏'}</button></div><div class="setting-row"><span>画面适配 <small>等比保持原版比例，或全屏拉伸铺满屏幕</small></span><div class="segmented"><button class="${settings.fitMode!=='fill'?'active':''}" data-action="fit-mode" data-id="contain">等比居中</button><button class="${settings.fitMode==='fill'?'active':''}" data-action="fit-mode" data-id="fill">铺满全屏</button></div></div><div class="setting-row"><span>字体与 UI 缩放 <small>针对手机与小屏设备放大的高清晰字体</small></span><div class="segmented"><button class="${settings.mobileFont==='standard'?'active':''}" data-action="mobile-font" data-id="standard">标准</button><button class="${(!settings.mobileFont||settings.mobileFont==='large')?'active':''}" data-action="mobile-font" data-id="large">大字 (推荐)</button><button class="${settings.mobileFont==='xlarge'?'active':''}" data-action="mobile-font" data-id="xlarge">特大</button></div></div></div><div class="setting-actions"><button class="btn muted" data-action="fullscreen">全屏</button><button class="btn muted" data-action="export-save">导出存档</button><button class="btn muted" data-action="import-save">导入存档</button></div><div class="settings-footnote">进度自动保存在当前浏览器。更换浏览器或移动文件时，建议先导出存档。<br>不联网、不上传数据、不需要登录。</div>`;
  modalFrame('\u9009\u9879 <small>OPTIONS</small>',content,`${onTitle?'':'<button class="btn muted" data-action="main-menu">\u4fdd\u5b58\u5e76\u8fd4\u56de\u4e3b\u83dc\u5355</button>'}<button class="btn amber" data-action="close-modal">${onTitle?'\u8fd4\u56de\u4e3b\u83dc\u5355':'\u8fd4\u56de\u6e38\u620f'}</button>`,'medium');
 }
 function renderAbout(){
@@ -2238,7 +2292,28 @@ function performAction(action,id,el){
  case 'about':openModal('about');break;
  case 'toggle-setting':settings[id]=!settings[id];applySettings();save();renderSettings();FX.sound('select');break;
  case 'speed':settings.speed=Number(id);applySettings();save();renderSettings();FX.sound('select');break;
- case 'fullscreen':try{
+ case 'toggle-orientation':try{
+ const isCurrentlyForce=document.body.classList.contains('force-landscape');
+ if(isCurrentlyForce){
+  document.body.classList.remove('force-landscape');
+  if(screen.orientation&&screen.orientation.unlock){try{screen.orientation.unlock();}catch(e){}}
+  fit();toast('已恢复竖屏模式');break;
+ }
+ let nativeOk=false;
+ if(screen.orientation&&screen.orientation.lock){
+  try{
+   if(document.documentElement.requestFullscreen&&!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>{});
+   }
+   screen.orientation.lock('landscape').then(()=>{nativeOk=true;fit();toast('已切换至横屏');}).catch(()=>{
+    document.body.classList.add('force-landscape');fit();toast('已开启强制横屏（将手机横置拿即可）');
+   });
+   break;
+  }catch(e){}
+ }
+ document.body.classList.add('force-landscape');fit();toast('已开启强制横屏（将手机横置拿即可）');
+}catch(e){document.body.classList.toggle('force-landscape');fit();}break;
+case 'fullscreen':try{
  const doc=document,isFs=!!(doc.fullscreenElement||doc.webkitFullscreenElement||doc.mozFullScreenElement||doc.msFullscreenElement);
  if(isFs){
   const exit=doc.exitFullscreen||doc.webkitExitFullscreen||doc.mozCancelFullScreen||doc.msExitFullscreen;
