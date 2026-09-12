@@ -6,8 +6,15 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Balatro">
+<meta name="application-name" content="Balatro">
 <meta name="theme-color" content="#273f41">
 <meta name="description" content="可离线游玩的像素风扑克构筑游戏。单文件，无依赖。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>BALATRO · 小丑牌 — Web Edition</title>
 <script type="text/plain" id="third-party-notices">
 Deck Pixel - embedded modified typography
@@ -211,99 +218,47 @@ body.on-title #topbar,body.on-title #board,body.on-title #footer{visibility:hidd
 @media(max-aspect-ratio:1/1){body.on-title #title-screen{overflow:visible}body.on-title .title-shade{inset:-1600px -500px;background:rgba(11,29,34,.22)}}
 
 
-/* ===== Mobile Landscape & Large Font Enhancements (Option 1) ===== */
-body.mobile-view, body.font-large {
+/* ===== Mobile Visual Tweaks ===== */
+body.mobile-view .screen-grain{opacity:.02!important}
+body.mobile-view .screen-vignette{box-shadow:inset 0 0 60px 10px rgba(8,16,23,.25)!important}
+
+/* ===== Standard Font Mode (Explicit fallback/reset) ===== */
+body.font-standard {
+  --text: "DeckPixel", "Microsoft YaHei", sans-serif;
+}
+
+/* ===== Large Font Mode (Recommended for readability) ===== */
+body.font-large {
   --text: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body.mobile-view .screen-grain{opacity:.02!important}
-body.mobile-view .screen-vignette{box-shadow:inset 0 0 60px 10px rgba(8,16,23,.25)!important}
+body.font-large #sidebar { padding: 13px; }
+body.font-large .blind-banner { height: 38px; font-size: 22px; font-weight: 700; }
+body.font-large .blind-target>strong { font-size: 38px; }
+body.font-large .blind-target>span { font-size: 15px; }
+body.font-large .blind-rule { font-size: 15px; line-height: 1.45; color: #fff; }
+body.font-large .blind-reward { font-size: 14px; }
+body.font-large .blind-reward b { font-size: 22px; }
+body.font-large .score-heading { font-size: 16px; font-weight: 600; }
+body.font-large .score-heading span { font-size: 12px; }
+body.font-large .round-score { height: 58px; min-height: 58px; }
+body.font-large .round-score strong { font-size: 42px; }
+body.font-large .hand-name-row strong { font-size: 27px; }
+body.font-large .hand-name-row span { font-size: 17px; }
+body.font-large .score-formula { font-size: 39px; }
+body.font-large .resource { height: 72px; }
+body.font-large .resource span { font-size: 15px; }
+body.font-large .resource strong { font-size: 32px; }
+body.font-large .money-box { height: 66px; }
+body.font-large .money-box strong { font-size: 34px; }
+body.font-large .money-box span { font-size: 15px; }
+body.font-large .info-button { font-size: 18px; min-height: 44px; font-weight: 600; }
+body.font-large .deck-caption { font-size: 14px; }
 
-/* Mobile Sidebar & Status */
-body.mobile-view #sidebar, body.font-large #sidebar {
-  padding: 13px;
-}
-body.mobile-view .blind-banner, body.font-large .blind-banner {
-  height: 38px;
-  font-size: 22px;
-  font-weight: 700;
-}
-body.mobile-view .blind-target>strong, body.font-large .blind-target>strong {
-  font-size: 38px;
-}
-body.mobile-view .blind-target>span, body.font-large .blind-target>span {
-  font-size: 15px;
-}
-body.mobile-view .blind-rule, body.font-large .blind-rule {
-  font-size: 15px;
-  line-height: 1.45;
-  color: #fff;
-}
-body.mobile-view .blind-reward, body.font-large .blind-reward {
-  font-size: 14px;
-}
-body.mobile-view .blind-reward b, body.font-large .blind-reward b {
-  font-size: 22px;
-}
-body.mobile-view .score-heading, body.font-large .score-heading {
-  font-size: 16px;
-  font-weight: 600;
-}
-body.mobile-view .score-heading span, body.font-large .score-heading span {
-  font-size: 12px;
-}
-body.mobile-view .round-score, body.font-large .round-score {
-  height: 58px;
-  min-height: 58px;
-}
-body.mobile-view .round-score strong, body.font-large .round-score strong {
-  font-size: 42px;
-}
-body.mobile-view .hand-name-row strong, body.font-large .hand-name-row strong {
-  font-size: 27px;
-}
-body.mobile-view .hand-name-row span, body.font-large .hand-name-row span {
-  font-size: 17px;
-}
-body.mobile-view .score-formula, body.font-large .score-formula {
-  font-size: 39px;
-}
-body.mobile-view .resource, body.font-large .resource {
-  height: 72px;
-}
-body.mobile-view .resource span, body.font-large .resource span {
-  font-size: 15px;
-}
-body.mobile-view .resource strong, body.font-large .resource strong {
-  font-size: 32px;
-}
-body.mobile-view .money-box, body.font-large .money-box {
-  height: 66px;
-}
-body.mobile-view .money-box strong, body.font-large .money-box strong {
-  font-size: 34px;
-}
-body.mobile-view .money-box span, body.font-large .money-box span {
-  font-size: 15px;
-}
-body.mobile-view .info-button, body.font-large .info-button {
-  font-size: 18px;
-  min-height: 44px;
-  font-weight: 600;
-}
-body.mobile-view .deck-caption, body.font-large .deck-caption {
-  font-size: 14px;
-}
-
-/* Mobile Table & Actions */
-body.mobile-view .zone-heading h2, body.font-large .zone-heading h2 {
-  font-size: 22px;
-}
-body.mobile-view .zone-heading div, body.font-large .zone-heading div {
-  font-size: 18px;
-}
-body.mobile-view #play-button, body.mobile-view #discard-button,
+/* Large Table & Actions */
+body.font-large .zone-heading h2 { font-size: 22px; }
+body.font-large .zone-heading div { font-size: 18px; }
 body.font-large #play-button, body.font-large #discard-button {
   min-height: 58px;
   font-size: 26px;
@@ -311,72 +266,78 @@ body.font-large #play-button, body.font-large #discard-button {
   padding: 10px 32px;
   border-radius: 10px;
 }
-body.mobile-view #table-actions .sort-actions, body.font-large #table-actions .sort-actions {
-  font-size: 18px;
-  gap: 12px;
-}
-body.mobile-view #table-actions .sort-actions .btn, body.font-large #table-actions .sort-actions .btn {
-  font-size: 18px;
-  min-height: 46px;
-  padding: 8px 16px;
-}
-body.mobile-view #deck-pile, body.font-large #deck-pile {
-  width: 118px;
-  height: 180px;
-  font-size: 16px;
-}
-body.mobile-view #deck-pile span#deck-count, body.font-large #deck-pile span#deck-count {
-  font-size: 18px;
-}
-body.mobile-view .hand-meta, body.font-large .hand-meta {
-  font-size: 17px;
-  font-weight: 600;
-}
-body.mobile-view #topbar .top-button, body.font-large #topbar .top-button {
-  height: 42px;
-  font-size: 17px;
-  min-width: 126px;
-}
-body.mobile-view #topbar .icon-button, body.font-large #topbar .icon-button {
-  width: 44px;
-  height: 44px;
-  font-size: 24px;
-}
-body.mobile-view #footer, body.font-large #footer {
-  font-size: 15px;
-}
+body.font-large #table-actions .sort-actions { font-size: 18px; gap: 12px; }
+body.font-large #table-actions .sort-actions .btn { font-size: 18px; min-height: 46px; padding: 8px 16px; }
+body.font-large #deck-pile { width: 118px; height: 180px; font-size: 16px; }
+body.font-large #deck-pile span#deck-count { font-size: 18px; }
+body.font-large .hand-meta { font-size: 17px; font-weight: 600; }
+body.font-large #topbar .top-button { height: 42px; font-size: 17px; min-width: 126px; }
+body.font-large #topbar .icon-button { width: 44px; height: 44px; font-size: 24px; }
+body.font-large #footer { font-size: 15px; }
 
-/* Shop & Inspect Enhancements */
-body.mobile-view .shop-heading h1, body.font-large .shop-heading h1 {
-  font-size: 30px;
-}
-body.mobile-view .shop-item .item-name, body.font-large .shop-item .item-name {
-  font-size: 16px;
-}
-body.mobile-view .shop-controls .btn, body.font-large .shop-controls .btn {
-  font-size: 22px;
-  min-height: 48px;
-}
-body.mobile-view .pack-title, body.font-large .pack-title {
-  font-size: 36px;
-}
-body.mobile-view .pack-subtitle, body.font-large .pack-subtitle {
-  font-size: 18px;
-}
-body.mobile-view .inspect-details h2, body.font-large .inspect-details h2 {
-  font-size: 28px;
-}
-body.mobile-view .inspect-details .desc, body.font-large .inspect-details .desc {
-  font-size: 18px;
-  line-height: 1.7;
-}
+/* Large Shop & Inspect & Modals */
+body.font-large .shop-heading h1 { font-size: 30px; }
+body.font-large .shop-item .item-name { font-size: 16px; }
+body.font-large .shop-controls .btn { font-size: 22px; min-height: 48px; }
+body.font-large .pack-title { font-size: 36px; }
+body.font-large .pack-subtitle { font-size: 18px; }
+body.font-large .inspect-details h2 { font-size: 28px; }
+body.font-large .inspect-details .desc { font-size: 18px; line-height: 1.7; }
+body.font-large .modal h1 { font-size: 30px; }
+body.font-large .modal-content { font-size: 17px; }
+body.font-large .setting-row { font-size: 17px; min-height: 56px; }
+body.font-large .setting-row small { font-size: 13px; }
+body.font-large .segmented button, body.font-large .toggle { font-size: 17px; padding: 8px 14px; }
+body.font-large .hand-table { font-size: 18px; }
+body.font-large .about-body { font-size: 17px; }
+body.font-large .deck-description p { font-size: 18px; }
 
-/* Extra Large Mode */
+/* ===== Extra Large Font Mode (Comprehensive Scaling) ===== */
+body.font-xlarge .blind-banner { height: 42px; font-size: 25px; }
 body.font-xlarge .blind-target>strong { font-size: 44px; }
+body.font-xlarge .blind-target>span { font-size: 17px; }
+body.font-xlarge .blind-rule { font-size: 17px; line-height: 1.5; }
+body.font-xlarge .blind-reward { font-size: 16px; }
+body.font-xlarge .blind-reward b { font-size: 25px; }
+body.font-xlarge .score-heading { font-size: 18px; }
+body.font-xlarge .score-heading span { font-size: 14px; }
+body.font-xlarge .round-score { height: 62px; min-height: 62px; }
 body.font-xlarge .round-score strong { font-size: 48px; }
 body.font-xlarge .hand-name-row strong { font-size: 32px; }
-body.font-xlarge .score-formula { font-size: 46px; }
-body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30px; min-height: 64px; }
+body.font-xlarge .hand-name-row span { font-size: 19px; }
+body.font-xlarge .score-formula { font-size: 44px; }
+body.font-xlarge .score-formula>div { width: 92px; height: 50px; }
+body.font-xlarge .resource span { font-size: 17px; }
+body.font-xlarge .resource strong { font-size: 36px; }
+body.font-xlarge .money-box strong { font-size: 38px; }
+body.font-xlarge .money-box span { font-size: 17px; }
+body.font-xlarge .info-button { font-size: 20px; min-height: 48px; }
+body.font-xlarge .deck-caption { font-size: 16px; }
+body.font-xlarge .zone-heading h2 { font-size: 25px; }
+body.font-xlarge .zone-heading div { font-size: 20px; }
+body.font-xlarge #play-button, body.font-xlarge #discard-button { font-size: 30px; min-height: 64px; padding: 12px 36px; }
+body.font-xlarge #table-actions .sort-actions { font-size: 20px; gap: 14px; }
+body.font-xlarge #table-actions .sort-actions .btn { font-size: 20px; min-height: 50px; padding: 10px 20px; }
+body.font-xlarge #deck-pile span#deck-count { font-size: 21px; }
+body.font-xlarge .hand-meta { font-size: 20px; }
+body.font-xlarge #topbar .top-button { height: 46px; font-size: 19px; }
+body.font-xlarge #topbar .icon-button { width: 48px; height: 48px; font-size: 26px; }
+body.font-xlarge #footer { font-size: 17px; }
+body.font-xlarge .shop-heading h1 { font-size: 34px; }
+body.font-xlarge .shop-item .item-name { font-size: 18px; }
+body.font-xlarge .shop-controls .btn { font-size: 25px; min-height: 54px; }
+body.font-xlarge .pack-title { font-size: 40px; }
+body.font-xlarge .pack-subtitle { font-size: 21px; }
+body.font-xlarge .inspect-details h2 { font-size: 32px; }
+body.font-xlarge .inspect-details .desc { font-size: 20px; line-height: 1.8; }
+body.font-xlarge .modal h1 { font-size: 33px; }
+body.font-xlarge .modal-content { font-size: 19px; }
+body.font-xlarge .setting-row { font-size: 19px; min-height: 62px; }
+body.font-xlarge .setting-row small { font-size: 14px; }
+body.font-xlarge .segmented button, body.font-xlarge .toggle { font-size: 19px; padding: 9px 16px; }
+body.font-xlarge .hand-table { font-size: 20px; }
+body.font-xlarge .about-body { font-size: 19px; }
+body.font-xlarge .deck-description p { font-size: 20px; }
 
 /* Enhanced Mobile Tooltip */
 #tooltip.mobile-tooltip {
@@ -1794,8 +1755,10 @@ function save(){
 function applySettings(){
  const isMobile = matchMedia('(pointer: coarse)').matches || (innerHeight <= 600 && innerWidth > innerHeight);
  document.body.classList.toggle('no-crt', !settings.crt || (isMobile && settings.crt !== true && settings.crt !== false));
- document.body.classList.toggle('font-large', settings.mobileFont !== 'standard');
- document.body.classList.toggle('font-xlarge', settings.mobileFont === 'xlarge');
+ const fontMode = settings.mobileFont || 'large';
+ document.body.classList.toggle('font-standard', fontMode === 'standard');
+ document.body.classList.toggle('font-large', fontMode === 'large' || fontMode === 'xlarge');
+ document.body.classList.toggle('font-xlarge', fontMode === 'xlarge');
  document.body.classList.toggle('reduced-motion',!settings.motion);
  M.enabled=!!settings.motion;M.speed=Number(settings.speed)||2;FX.motion=settings.motion;FX.configure({enabled:settings.sound,music:settings.music,volume:settings.volume});
  if($('title-sound'))$('title-sound').textContent=settings.sound?'♪':'♩';
@@ -1926,15 +1889,21 @@ function floatAt(target,step){
 function setFormula(chips,mult){$('chips-value').textContent=fmt(chips);$('mult-value').textContent=fmt(mult);const c=Math.max(String(fmt(chips)).length,String(fmt(mult)).length);$('chips-value').style.fontSize=c>6?'23px':c>4?'28px':'34px';$('mult-value').style.fontSize=c>6?'23px':c>4?'28px':'34px';}
 function renderSidebar(){
  const s=state,b=s.blind||E.blindInfo(s);
- $('blind-summary').innerHTML=`<div class="blind-banner" style="--blind-color:${b.color}">${esc(b.name)}</div><div class="blind-main"><img src="${A.chip(b.icon,b.color)}" alt="${esc(b.name)}"><div class="blind-target"><span>至少获得</span><strong style="font-size:${fmt(b.target).length>7?26:33}px"><small>✺</small>${fmt(b.target)}</strong></div></div>${b.rule?`<div class="blind-rule">${esc(b.rule)}</div>`:''}<div class="blind-reward">奖金 <b>${'$'.repeat(b.reward)}</b></div>`;
+ const isXl = settings.mobileFont === 'xlarge', isStd = settings.mobileFont === 'standard';
+ const targetFont = (fmt(b.target).length > 7 ? (isXl?34:isStd?26:30) : (isXl?44:isStd?33:38)) + 'px';
+ $('blind-summary').innerHTML=`<div class="blind-banner" style="--blind-color:${b.color}">${esc(b.name)}</div><div class="blind-main"><img src="${A.chip(b.icon,b.color)}" alt="${esc(b.name)}"><div class="blind-target"><span>至少获得</span><strong style="font-size:${targetFont}"><small>✺</small>${fmt(b.target)}</strong></div></div>${b.rule?`<div class="blind-rule">${esc(b.rule)}</div>`:''}<div class="blind-reward">奖金 <b>${'$'.repeat(b.reward)}</b></div>`;
  const score=displayRound??(s.phase==='select'?0:s.score);
- $('round-score').textContent=fmt(score);$('round-score').style.fontSize=fmt(score).length>9?'27px':fmt(score).length>6?'33px':'39px';
+ const roundScoreFont = (fmt(score).length > 9 ? (isXl?34:isStd?27:30) : fmt(score).length > 6 ? (isXl?42:isStd?33:36) : (isXl?48:isStd?39:42)) + 'px';
+ $('round-score').textContent=fmt(score);$('round-score').style.fontSize=roundScoreFont;
  $('score-progress').style.width=Math.min(100,score/b.target*100)+'%';
  const ev=s.selected.length?E.evaluate(E.cards(s,s.selected),E.flags(s)):null,key=animResult?.key||ev?.key||s.lastScore?.key||'high',hand=D.hand(key),hv=E.handValue(s,key);
  $('hand-name').textContent=(animResult?.royal||ev?.royal)?'皇家同花顺':hand.name;
- $('hand-name').style.fontSize=hand.name.length>4?'19px':'23px';$('hand-level').textContent='Lv.'+hv.level;$('hand-en').textContent=hand.en;
+ const handNameFont = (hand.name.length > 4 ? (isXl?25:isStd?19:22) : (isXl?32:isStd?23:27)) + 'px';
+ $('hand-name').style.fontSize=handNameFont;$('hand-level').textContent='Lv.'+hv.level;$('hand-en').textContent=hand.en;
  if(!busy)setFormula(hv.chips,hv.mult);
- $('hands-value').textContent=s.hands;$('discards-value').textContent=s.discards;$('money-value').textContent=money(s.money);$('money-value').style.fontSize=money(s.money).length>7?'30px':'39px';
+ $('hands-value').textContent=s.hands;$('discards-value').textContent=s.discards;$('money-value').textContent=money(s.money);
+ const moneyFont = (money(s.money).length > 7 ? (isXl?34:isStd?30:30) : (isXl?38:isStd?39:34)) + 'px';
+ $('money-value').style.fontSize=moneyFont;
  $('ante-value').textContent=s.ante;$('round-value').textContent=s.round;
  $('deck-caption').textContent=E.deckDef(s).name+' · '+s.deck.length+' 张牌';
  $('seed-label').textContent='SEED: '+s.seed;
@@ -2219,18 +2188,20 @@ function showTooltip(el){
  if(busy||dragData)return;const key=el.dataset.tip;if(!key)return;let tip;
  try{tip=tipContent(key);}catch(e){return;}
  const t=$('tooltip');
+ const fontMode=settings.mobileFont||'large';
  const isMobile=document.body.classList.contains('mobile-view')||matchMedia('(pointer: coarse)').matches||(innerHeight<=600&&innerWidth>innerHeight);
  t.innerHTML=`<div class="tip-title">${esc(tip.title)}</div>${tip.en?`<div class="tip-en">${esc(tip.en)}</div>`:''}<div class="tip-body">${tip.body}</div>${tip.rarity?`<span class="tip-rarity ${tip.rarity}">${rarity[tip.rarity]}</span>`:''}${tip.note?`<div class="tip-note">${tip.note}</div>`:''}${isMobile?'<div class="tip-touch-hint">轻触任意处关闭</div>':''}`;
  t.hidden=false;
- if(isMobile||settings.mobileFont!=='standard'){
-  t.classList.add('mobile-tooltip');
-  t.style.width='min(380px, 86vw)';
-  t.style.fontSize=(settings.mobileFont==='xlarge'?18:16)+'px';
-  t.querySelector('.tip-title').style.fontSize=(settings.mobileFont==='xlarge'?24:21)+'px';
- }else{
+ if(fontMode==='standard'){
   t.classList.remove('mobile-tooltip');
   const ts=Math.max(.75,Math.min(1.2,scale));t.style.width=(260*ts)+'px';t.style.fontSize=(13*ts)+'px';
   t.querySelector('.tip-title').style.fontSize=(19*ts)+'px';
+ }else{
+  t.classList.add('mobile-tooltip');
+  const isXl=fontMode==='xlarge';
+  t.style.width=isXl?'min(430px, 92vw)':'min(380px, 86vw)';
+  t.style.fontSize=(isXl?19:16)+'px';
+  t.querySelector('.tip-title').style.fontSize=(isXl?25:21)+'px';
  }
  const r=el.getBoundingClientRect(),tr=t.getBoundingClientRect();let left=r.left+r.width/2-tr.width/2,top=r.top-tr.height-14;
  if(top<10)top=r.bottom+14;if(top+tr.height>innerHeight-8)top=innerHeight-tr.height-8;
@@ -2325,7 +2296,13 @@ case 'fullscreen':try{
  }
 }catch(e){toast('全屏切换受限');}break;
 case 'fit-mode':settings.fitMode=id;fit();applySettings();save();renderSettings();FX.sound('select');break;
-case 'mobile-font':settings.mobileFont=id;applySettings();save();renderSettings();FX.sound('select');break;
+case 'mobile-font':{
+ settings.mobileFont=id;applySettings();save();render();renderSettings();
+ const fontNames={standard:'标准字体',large:'大字模式 (推荐)',xlarge:'特大字模式'};
+ toast('已切换为'+(fontNames[id]||id));
+ FX.sound('select');
+ break;
+}
  case 'export-save':{
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='balatro-save-'+state.seed+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('存档已导出');break;
  }
@@ -2442,6 +2419,13 @@ global.Balatro={
 };
 })(window);
 
+</script>
+<script>
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ window.addEventListener('load', ()=>{
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+ });
+}
 </script>
 </body>
 </html>
